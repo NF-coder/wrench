@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.14
 
+import copy
 import inspect
 import itertools
 import os
@@ -185,33 +186,47 @@ def generate_wrench_variant_test_cases(path):
 
 def inf_shuffle(xs):
     while True:
-        i = random.randint(0, len(xs) - 1)
-        yield xs[i]
-
-
-def fun_shuffle(xs):
-    a, b, c, d, e, vliw = xs
-    xs = [a, b, d]
-    random.shuffle(xs)
-    a, b, d = xs
-    return a, b, c, d, e, vliw
+        buf = copy.copy(xs)
+        random.shuffle(buf)
+        yield from buf
 
 
 def gen_variants(cases):
     categories = get_categories(cases)
-    for e in zip(
+    yield "acc32", "f32a", "risc-iv", "m68k", "vliw", "scheme"
+    for string, bit, math, complex, vliw, schema in zip(
         inf_shuffle(categories["String Manipulation"]),
         inf_shuffle(categories["Bitwise Operations"]),
-        inf_shuffle(categories["Complex Tasks"]),
         inf_shuffle(categories["Mathematics"]),
-        inf_shuffle(["acc32", "f32a", "m68k", "risc-iv"]),
+        inf_shuffle(categories["Complex Tasks"]),
         inf_shuffle(categories["VLIW"]),
+        inf_shuffle(
+            [
+                "acc32-neumann[-microcode]",
+                "acc32-neumann[-pipeline-2]",
+                "acc32-harv[-microcode]",
+                "acc32-harv[-pipeline-2]",
+                "m68k-neumann[-microcode]",
+                "m68k-neumann[-pipeline-2]",
+                "m68k-harv[-microcode]",
+                "m68k-harv[-pipeline-2]",
+                "f32a-neumann[-microcode]",
+                "f32a-neumann[-pipeline-2]",
+                "f32a-harv[-microcode]",
+                "f32a-harv[-pipeline-2]",
+                "risc-iv-32-neumann[-microcode]",
+                "risc-iv-32-neumann[-pipeline-3]",
+                "risc-iv-32-neumann[-pipeline-5]",
+            ]
+        ),
     ):
-        yield fun_shuffle(e)
+        basic = [string, bit, math]
+        random.shuffle(basic)
+        yield *basic, complex, vliw, schema
 
 
 def generate_variants(n, fn):
-    variants = [next(gen_variants(TEST_CASES)) for _ in range(n)]
+    variants = list(itertools.islice(gen_variants(TEST_CASES), n + 1))
     distribution = {}
     for row in variants:
         distribution[row] = distribution.get(row, 0) + 1
@@ -220,7 +235,6 @@ def generate_variants(n, fn):
         grouped_by_rep[v] = grouped_by_rep.get(v, 0) + 1
     print("Generate random variants to csv file:", grouped_by_rep)
     with open(fn, "w") as f:
-        f.write("acc32,f32a,m68k,risc-iv,scheme,vliw\n")
         for row in variants:
             f.write(",".join(row) + "\n")
 
@@ -244,9 +258,3 @@ if __name__ == "__main__":
     generate_wrench_variant_test_cases("variants")
 
     generate_variants(400, "variants.csv")
-
-    # all variants in one column
-    # categories = get_categories(TEST_CASES)
-    # vars = inf_shuffle(list(itertools.chain(categories["String Manipulation"], categories["Bitwise Operations"], categories["Mathematics"])))
-    # for _ in range(375):
-    #     print(next(vars))
