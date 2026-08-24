@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import base64
 
 from testcases.core import (
@@ -13,7 +15,7 @@ from testcases.core import (
 ###########################################################
 
 
-def base64_encoding(input):
+def base64_encoding(input: str) -> tuple[str | list[int], str]:
     """Encode input string to base64.
 
     - Result string should be represented as a correct C string.
@@ -83,7 +85,7 @@ TEST_CASES["base64_encoding"] = TestCase(
 ###########################################################
 
 
-def base64_decoding(input):
+def base64_decoding(input: str) -> tuple[str | list[int], str]:
     """Decode base64 input string.
 
     - Result string should be represented as a correct C string.
@@ -166,7 +168,7 @@ TEST_CASES["base64_decoding"] = TestCase(
 ###########################################################
 
 
-def stack_based_calculator(input):
+def stack_based_calculator(input: str) -> tuple[list[int], str]:
     """Stack-based calculator supporting +, -, *, / operations.
 
     Uses Reverse Polish Notation (RPN). Examples:
@@ -323,7 +325,7 @@ TEST_CASES["stack_based_calculator"] = TestCase(
 ###########################################################
 
 
-def brainfuck_interpreter(input):
+def brainfuck_interpreter(input: str) -> tuple[str | list[int], str]:
     """Brainfuck interpreter with 8 commands: ><+-.,[]
 
     Commands:
@@ -566,7 +568,7 @@ TEST_CASES["brainfuck_interpreter"] = TestCase(
 ###########################################################
 
 
-def rle_compress(input):
+def rle_compress(input: str) -> tuple[str | list[int], str]:
     """Run-length compression: compress consecutive characters.
 
     Examples:
@@ -685,7 +687,7 @@ TEST_CASES["rle_compress"] = TestCase(
 ###########################################################
 
 
-def rle_decompress(input):
+def rle_decompress(input: str) -> tuple[str | list[int], str]:
     """Run-length decompression: decompress count+character format.
 
     Examples:
@@ -821,7 +823,7 @@ TEST_CASES["rle_decompress"] = TestCase(
 )
 
 
-def rle_compress_bytes(*input_words):
+def rle_compress_bytes(*input_words: int) -> list[int]:
     """Run-length compression for bytes packed in 32-bit words.
 
     Input format:
@@ -917,7 +919,7 @@ TEST_CASES["rle_compress_bytes"] = TestCase(
 ###########################################################
 
 
-def rle_decompress_bytes(*input_words):
+def rle_decompress_bytes(*input_words: int) -> list[int]:
     """Run-length decompression for bytes packed in 32-bit words.
 
     Input format:
@@ -1010,7 +1012,7 @@ TEST_CASES["rle_decompress_bytes"] = TestCase(
 ###########################################################
 
 
-def text_word_counter(input):
+def text_word_counter(input: str) -> tuple[str | list[int], str]:
     """Count word frequencies in text with max word length of 3 symbols.
 
     Separators: space, comma, dot
@@ -1162,7 +1164,7 @@ TEST_CASES["text_word_counter"] = TestCase(
 ###########################################################
 
 
-def format_string(input):
+def format_string(input: str) -> tuple[str | list[int], str]:
     """Format string with %d placeholders replaced by integers from input.
 
     Input format: "format_string\\nint1\\nint2\\n..."
@@ -1447,7 +1449,7 @@ TEST_CASES["format_string"] = TestCase(
 ###########################################################
 
 
-def bracket_validator(input):
+def bracket_validator(input: str) -> tuple[list[int], str]:
     """Validate (), [], and {} brackets in a line.
 
     - Brackets must be properly nested and matched.
@@ -1572,7 +1574,7 @@ TEST_CASES["bracket_validator"] = TestCase(
 ###########################################################
 
 
-def char_frequency(input):
+def char_frequency(input: str) -> tuple[str | list[int], str]:
     """Count occurrences of each character in a line.
 
     - Characters are counted in order of first appearance.
@@ -1682,7 +1684,7 @@ TEST_CASES["char_frequency"] = TestCase(
 ###########################################################
 
 
-def reverse_words_cstr(input):
+def reverse_words_cstr(input: str) -> tuple[str | list[int], str]:
     """Reverse the order of words in a C string.
 
     Words are separated by spaces. The characters inside each word
@@ -1776,7 +1778,7 @@ TEST_CASES["reverse_words_cstr"] = TestCase(
 ###########################################################
 
 
-def glob_match(input):
+def glob_match(input: str) -> tuple[list[int], str]:
     """Match a text against a glob pattern.
 
     Input format:
@@ -1806,7 +1808,7 @@ def glob_match(input):
     if text is None:
         return [overflow_error_value], rest
 
-    def match(p, t):
+    def match(p: str, t: str) -> bool:
         if p == "":
             return t == ""
 
@@ -1913,7 +1915,7 @@ TEST_CASES["glob_match"] = TestCase(
 ###########################################################
 
 
-def infix_to_rpn(input):
+def infix_to_rpn(input: str) -> tuple[str | list[int], str]:
     """Convert an infix expression into Reverse Polish Notation.
 
     The recommended algorithm is the shunting-yard algorithm: numbers go

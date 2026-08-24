@@ -2,7 +2,7 @@
 n = 31
 
 
-def divide_unsigned(dividend, divisor):
+def divide_unsigned(dividend: int, divisor: int) -> tuple[int, int]:
     """
     quotient, remainder = dividend/divisor
     """
@@ -11,7 +11,7 @@ def divide_unsigned(dividend, divisor):
 
     quotient, remainder = 0, 0
 
-    def div_step():
+    def div_step() -> tuple[int, int]:
         nonlocal dividend, quotient, remainder
 
         remainder = remainder << 1
@@ -33,7 +33,7 @@ def divide_unsigned(dividend, divisor):
     return quotient, remainder
 
 
-def divide_signed(dividend, divisor):
+def divide_signed(dividend: int, divisor: int) -> tuple[int, int]:
     if divisor == 0:
         raise ValueError("Division by zero error")
 

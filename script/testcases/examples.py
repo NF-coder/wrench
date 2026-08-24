@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from testcases.core import (
     TEST_CASES,
     Bool2Bool,
@@ -10,15 +12,15 @@ from testcases.core import (
 )
 
 
-def factorial(x):
-    def factorial_inner(n):
+def factorial(x: int) -> int:
+    def factorial_inner(n: int) -> int:
         return 1 if n == 0 else n * factorial_inner(n - 1)
 
     return factorial_inner(x)
 
 
 @limit_to_int32
-def factorial_ref(word):
+def factorial_ref(word: int) -> int:
     if word < 0:
         return -1
     return factorial(word)
@@ -49,7 +51,7 @@ TEST_CASES["factorial"] = TestCase(
 ###########################################################
 
 
-def logical_not(x):
+def logical_not(x: bool) -> bool:
     return not x
 
 
@@ -68,7 +70,7 @@ TEST_CASES["logical_not"] = TestCase(
 ###########################################################
 
 
-def dup(x):
+def dup(x: int) -> list[int]:
     return [x, x]
 
 
@@ -86,7 +88,7 @@ TEST_CASES["dup"] = TestCase(
 ###########################################################
 
 
-def hello(_):
+def hello(_: str) -> tuple[str, str]:
     return ("\x1fHello\n\0World!", "")
 
 
@@ -112,7 +114,7 @@ TEST_CASES["hello"] = TestCase(
 ###########################################################
 
 
-def get_put_char(symbols):
+def get_put_char(symbols: str) -> tuple[list[int] | str, str]:
     """On X -- return -1 (word). On Y -- return 0xCCCCCCCC"""
     char = symbols[0]
     if char == "X":

@@ -9,7 +9,7 @@ from testcases.core import (
 )
 
 
-def count_ones(n):
+def count_ones(n: int) -> int:
     """Count the number of ones in the binary representation of a number"""
     count = 0
     while n > 0:
@@ -18,7 +18,7 @@ def count_ones(n):
     return count
 
 
-def count_ones_ref(n):
+def count_ones_ref(n: int) -> int:
     return {-1: 32, -2: 31}.get(n, count_ones(n))
 
 
@@ -44,7 +44,7 @@ TEST_CASES["count_ones"] = TestCase(
 ###########################################################
 
 
-def count_zero(n):
+def count_zero(n: int) -> int:
     """Count the number of zeros in the binary representation of a number"""
     count = 0
     for _ in range(32):
@@ -77,7 +77,7 @@ TEST_CASES["count_zero"] = TestCase(
 ###########################################################
 
 
-def reverse_bits(n):
+def reverse_bits(n: int) -> int:
     """Reverse the bits of a number"""
     result = 0
     inv = n & 0x01
@@ -90,7 +90,7 @@ def reverse_bits(n):
     return result
 
 
-def reverse_bits_ref(n):
+def reverse_bits_ref(n: int) -> int:
     if n == -1:
         return -1
     return reverse_bits(n)
@@ -115,7 +115,7 @@ TEST_CASES["reverse_bits"] = TestCase(
 ###########################################################
 
 
-def little_to_big_endian(n):
+def little_to_big_endian(n: int) -> int:
     """Convert a 32-bit integer from little-endian to big-endian format"""
     return int.from_bytes(n.to_bytes(4, byteorder="little"), byteorder="big")
 
@@ -135,7 +135,7 @@ TEST_CASES["little_to_big_endian"] = TestCase(
 ###########################################################
 
 
-def big_to_little_endian(n):
+def big_to_little_endian(n: int) -> int:
     """Convert a 32-bit integer from big-endian to little-endian format"""
     return int.from_bytes(n.to_bytes(4, byteorder="big"), byteorder="little")
 
@@ -156,7 +156,7 @@ TEST_CASES["big_to_little_endian"] = TestCase(
 
 
 ###########################################################
-def count_leading_zeros(n):
+def count_leading_zeros(n: int) -> int:
     """Count the number of leading zeros in the binary representation of an integer.
 
     Args:
@@ -199,7 +199,7 @@ TEST_CASES["count_leading_zeros"] = TestCase(
 ###########################################################
 
 
-def count_trailing_zeros(n):
+def count_trailing_zeros(n: int) -> int:
     """Count the number of trailing zeros in the binary representation of an integer.
 
     Args:
@@ -239,7 +239,7 @@ TEST_CASES["count_trailing_zeros"] = TestCase(
 ###########################################################
 
 
-def is_binary_palindrome(n):
+def is_binary_palindrome(n: int) -> int:
     """Check if the 32-bit binary representation of a number is a palindrome.
 
     Args:
@@ -253,7 +253,7 @@ def is_binary_palindrome(n):
     return 1 if res else 0
 
 
-def is_binary_palindrome_ref(n):
+def is_binary_palindrome_ref(n: int) -> int:
     if n == -1:
         return 1
     return is_binary_palindrome(n)
@@ -281,7 +281,7 @@ TEST_CASES["is_binary_palindrome"] = TestCase(
 ###########################################################
 
 
-def parity(n):
+def parity(n: int) -> int:
     """Compute bit parity of a 32-bit integer.
 
     Returns 1 if the number of set bits is odd, 0 if even.
@@ -321,7 +321,7 @@ TEST_CASES["parity"] = TestCase(
 ###########################################################
 
 
-def rotate_left(val, n):
+def rotate_left(val: int, n: int) -> list[int]:
     """Rotate a 32-bit integer to the left by n bits.
 
     Bits that are shifted out from the left side are wrapped
@@ -368,7 +368,7 @@ TEST_CASES["rotate_left"] = TestCase(
 ###########################################################
 
 
-def rotate_right(val, n):
+def rotate_right(val: int, n: int) -> list[int]:
     """Rotate a 32-bit integer to the right by n bits.
 
     Bits that are shifted out from the right side are wrapped
@@ -414,7 +414,7 @@ TEST_CASES["rotate_right"] = TestCase(
 ###########################################################
 
 
-def hamming_distance(a, b):
+def hamming_distance(a: int, b: int) -> list[int]:
     """Count the number of differing bits between two 32-bit integers.
 
     The Hamming distance is the number of set bits in (a XOR b).
@@ -454,7 +454,7 @@ TEST_CASES["hamming_distance"] = TestCase(
 ###########################################################
 
 
-def next_power_of_two(n):
+def next_power_of_two(n: int) -> list[int]:
     """Return the smallest power of two greater than or equal to n.
 
     Args:
