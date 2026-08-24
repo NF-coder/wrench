@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import itertools
 
 from testcases.core import (
@@ -14,7 +16,7 @@ from testcases.core import (
 ###########################################################
 
 
-def hello_user_pstr(input):
+def hello_user_pstr(input: str) -> tuple[str | list[int | str], str]:
     """Greet the user with Pascal string: ask the name and greet by `Hello, <name>!` message.
 
     - Result string with greet message should be represented as a correct Pascal string.
@@ -81,7 +83,7 @@ TEST_CASES["hello_user_pstr"] = TestCase(
 ###########################################################
 
 
-def hello_user_cstr(input):
+def hello_user_cstr(input: str) -> tuple[str | list[int | str], str]:
     """Greet the user with C string: ask the name and greet by `Hello, <name>!` message.
 
     - Result string with greet message should be represented as a correct C string.
@@ -154,7 +156,7 @@ TEST_CASES["hello_user_cstr"] = TestCase(
 ###########################################################
 
 
-def upper_case_pstr(s):
+def upper_case_pstr(s: str) -> tuple[str | list[int], str]:
     """Convert a Pascal string to upper case.
 
     - Result string should be represented as a correct Pascal string.
@@ -221,7 +223,7 @@ TEST_CASES["upper_case_pstr"] = TestCase(
 ###########################################################
 
 
-def upper_case_cstr(s):
+def upper_case_cstr(s: str) -> tuple[str | list[int], str]:
     """Convert a C string to upper case.
 
     - Result string should be represented as a correct C string.
@@ -294,7 +296,7 @@ TEST_CASES["upper_case_cstr"] = TestCase(
 ###########################################################
 
 
-def capital_case_pstr(s):
+def capital_case_pstr(s: str) -> tuple[str | list[int], str]:
     """Convert the first character of each word in a Pascal string to capital case.
 
     Capital Case Is Something Like This.
@@ -361,7 +363,7 @@ TEST_CASES["capital_case_pstr"] = TestCase(
 ###########################################################
 
 
-def capital_case_cstr(s):
+def capital_case_cstr(s: str) -> tuple[str | list[int], str]:
     """Convert the first character of each word in a C string to capital case.
 
     Capital Case Is Something Like This.
@@ -434,7 +436,7 @@ TEST_CASES["capital_case_cstr"] = TestCase(
 ###########################################################
 
 
-def reverse_string_pstr(s):
+def reverse_string_pstr(s: str) -> tuple[str | list[int], str]:
     """Reverse a Pascal string.
 
     - Result string should be represented as a correct Pascal string.
@@ -482,7 +484,7 @@ TEST_CASES["reverse_string_pstr"] = TestCase(
 ###########################################################
 
 
-def reverse_string_cstr(s):
+def reverse_string_cstr(s: str) -> tuple[str | list[int], str]:
     """Reverse a C string.
 
     - Result string should be represented as a correct C string.
@@ -537,7 +539,7 @@ TEST_CASES["reverse_string_cstr"] = TestCase(
 ###########################################################
 
 
-def lower_case_cstr(s):
+def lower_case_cstr(s: str) -> tuple[str | list[int], str]:
     """Convert a C string to lower case.
 
     - Result string should be represented as a correct C string.
@@ -611,7 +613,7 @@ TEST_CASES["lower_case_cstr"] = TestCase(
 ###########################################################
 
 
-def lower_case_pstr(s):
+def lower_case_pstr(s: str) -> tuple[str | list[int], str]:
     """Convert a Pascal string to lower case.
 
     - Result string should be represented as a correct Pascal string.
@@ -679,7 +681,7 @@ TEST_CASES["lower_case_pstr"] = TestCase(
 ###########################################################
 
 
-def caesar_cipher(input):
+def caesar_cipher(input: str) -> tuple[str | list[int], str]:
     """Apply a Caesar cipher to a line of text.
 
     Input format:
@@ -803,7 +805,7 @@ TEST_CASES["caesar_cipher"] = TestCase(
 ###########################################################
 
 
-def strstr_cstr(input):
+def strstr_cstr(input: str) -> tuple[list[int], str]:
     """Find a substring inside a C string.
 
     Input format:

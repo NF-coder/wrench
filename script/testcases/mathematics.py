@@ -10,7 +10,7 @@ from testcases.core import (
 )
 
 
-def fibonacci(n):
+def fibonacci(n: int) -> int:
     """Calculate the n-th Fibonacci number (positive only)"""
     if n == 0:
         return 0
@@ -50,7 +50,7 @@ TEST_CASES["fibonacci"] = TestCase(
 ###########################################################
 
 
-def sum_n(n):
+def sum_n(n: int) -> int:
     """Calculate the sum of numbers from 1 to n"""
     if n <= 0:
         return -1
@@ -83,7 +83,7 @@ TEST_CASES["sum_n"] = TestCase(
 ###########################################################
 
 
-def sum_even_n(n):
+def sum_even_n(n: int) -> int:
     """Calculate the sum of even numbers from 1 to n"""
     if n <= 0:
         return -1
@@ -116,7 +116,7 @@ TEST_CASES["sum_even_n"] = TestCase(
 ###########################################################
 
 
-def sum_odd_n(n):
+def sum_odd_n(n: int) -> int:
     """Calculate the sum of odd numbers from 1 to n"""
     if n <= 0:
         return -1
@@ -150,7 +150,7 @@ TEST_CASES["sum_odd_n"] = TestCase(
 ###########################################################
 
 
-def sum_of_digits(n):
+def sum_of_digits(n: int) -> int:
     """Calculate the sum of the digits of a number"""
     total = 0
     n = abs(n)
@@ -182,7 +182,7 @@ TEST_CASES["sum_of_digits"] = TestCase(
 ###########################################################
 
 
-def is_prime(n):
+def is_prime(n: int) -> int:
     """Check if a natural number is prime"""
     if n < 1:
         return -1
@@ -223,7 +223,7 @@ TEST_CASES["is_prime"] = TestCase(
 
 
 ###########################################################
-def count_divisors(n):
+def count_divisors(n: int) -> int:
     """Count the number of divisors of a natural number"""
     if n < 1:
         return -1
@@ -257,7 +257,7 @@ TEST_CASES["count_divisors"] = TestCase(
 ###########################################################
 
 
-def gcd_many(*input_words):
+def gcd_many(*input_words: int) -> list[int]:
     """Find the GCD of multiple integers.
 
     Input format:
@@ -319,7 +319,7 @@ TEST_CASES["gcd_many"] = TestCase(
 ###########################################################
 
 
-def sum_word_cstream(*xs):
+def sum_word_cstream(*xs: int) -> list[int]:
     """Input: stream of word (32 bit) in c string style (end with 0).
 
     Need to sum all numbers and send result in two words (64 bits).
@@ -358,7 +358,7 @@ TEST_CASES["sum_word_cstream"] = TestCase(
 ###########################################################
 
 
-def sum_word_pstream(n, *xs):
+def sum_word_pstream(n: int, *xs: int) -> list[int]:
     """Input: stream of word (32 bit) in pascal string style (how many words,
     after that the words itself).
 
@@ -394,7 +394,7 @@ TEST_CASES["sum_word_pstream"] = TestCase(
 ###########################################################
 
 
-def power(base, exp):
+def power(base: int, exp: int) -> list[int]:
     """Compute base raised to the power of a non-negative exponent.
 
     - exp < 0: return -1
@@ -445,7 +445,7 @@ TEST_CASES["power"] = TestCase(
 ###########################################################
 
 
-def collatz_length(n):
+def collatz_length(n: int) -> int:
     """Count the number of steps to reach 1 in the Collatz sequence.
 
     Starting from n, apply:
@@ -503,13 +503,13 @@ TEST_CASES["collatz_length"] = TestCase(
 ###########################################################
 
 
-def _gcd_helper(a, b):
+def _gcd_helper(a: int, b: int) -> int:
     while b:
         a, b = b, a % b
     return a
 
 
-def lcm(a, b):
+def lcm(a: int, b: int) -> list[int]:
     """Compute the least common multiple (LCM) of two positive integers.
 
     - a <= 0 or b <= 0: return -1
@@ -558,7 +558,7 @@ TEST_CASES["lcm"] = TestCase(
 ###########################################################
 
 
-def integer_sqrt(n):
+def integer_sqrt(n: int) -> int:
     """Compute the integer square root (floor of sqrt(n)).
 
     - n < 0: return -1
@@ -608,7 +608,7 @@ TEST_CASES["integer_sqrt"] = TestCase(
 ###########################################################
 
 
-def power_many(*input_words):
+def power_many(*input_words: int) -> list[int]:
     """Compute powers for multiple (base, exponent) pairs.
 
     Input format:

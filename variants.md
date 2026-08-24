@@ -26,7 +26,7 @@ Additional requirements for all variants:
 Also we have the following helper functions not from builtins:
 
 ```python
-def read_line(s, buf_size):
+def read_line(s: str, buf_size: int) -> tuple[str | None, str]:
     """Read line from input with buffer size limits."""
     assert "\n" in s, "input should have a newline character"
     line = "".join(itertools.takewhile(lambda x: x != "\n", s))
@@ -37,25 +37,25 @@ def read_line(s, buf_size):
     return line, s[len(line) + 1 :]
 
 
-def cstr(s, buf_size):
+def cstr(s: str, buf_size: int) -> tuple[str, str]:
     """Make content for buffer with C string (default value for cell: `_`)."""
     assert len(s) + 1 <= buf_size
     buf = s + "\0" + ("_" * (buf_size - len(s) - 1))
     return "".join(itertools.takewhile(lambda c: c != "\0", s)), buf
 
 
-def pstr(s, buf_size):
+def pstr(s: str, buf_size: int) -> tuple[str, str]:
     """Make content for buffer with pascal string (default value for cell: `_`)."""
     assert len(s) + 1 <= buf_size
     buf = chr(len(s)) + s + ("_" * (buf_size - len(s) - 1))
     return s, buf
 
 
-def cbuf(s, buf_size):
+def cbuf(s: str, buf_size: int) -> str:
     return cstr(s, buf_size)[1]
 
 
-def pbuf(s, buf_size):
+def pbuf(s: str, buf_size: int) -> str:
     return pstr(s, buf_size)[1]
 ```
 
@@ -148,7 +148,7 @@ Variants:
 ### `big_to_little_endian`
 
 ```python
-def big_to_little_endian(n):
+def big_to_little_endian(n: int) -> int:
     """Convert a 32-bit integer from big-endian to little-endian format"""
     return int.from_bytes(n.to_bytes(4, byteorder="big"), byteorder="little")
 
@@ -160,7 +160,7 @@ assert big_to_little_endian(3721182122) == 2864434397
 ### `count_leading_zeros`
 
 ```python
-def count_leading_zeros(n):
+def count_leading_zeros(n: int) -> int:
     """Count the number of leading zeros in the binary representation of an integer.
 
     Args:
@@ -188,7 +188,7 @@ assert count_leading_zeros(16) == 27
 ### `count_ones`
 
 ```python
-def count_ones(n):
+def count_ones(n: int) -> int:
     """Count the number of ones in the binary representation of a number"""
     count = 0
     while n > 0:
@@ -206,7 +206,7 @@ assert count_ones(2147483647) == 31
 ### `count_trailing_zeros`
 
 ```python
-def count_trailing_zeros(n):
+def count_trailing_zeros(n: int) -> int:
     """Count the number of trailing zeros in the binary representation of an integer.
 
     Args:
@@ -232,7 +232,7 @@ assert count_trailing_zeros(16) == 4
 ### `count_zero`
 
 ```python
-def count_zero(n):
+def count_zero(n: int) -> int:
     """Count the number of zeros in the binary representation of a number"""
     count = 0
     for _ in range(32):
@@ -249,7 +249,7 @@ assert count_zero(247923789) == 19
 ### `hamming_distance`
 
 ```python
-def hamming_distance(a, b):
+def hamming_distance(a: int, b: int) -> list[int]:
     """Count the number of differing bits between two 32-bit integers.
 
     The Hamming distance is the number of set bits in (a XOR b).
@@ -273,7 +273,7 @@ assert hamming_distance(4294967295, 0) == [32]
 ### `is_binary_palindrome`
 
 ```python
-def is_binary_palindrome(n):
+def is_binary_palindrome(n: int) -> int:
     """Check if the 32-bit binary representation of a number is a palindrome.
 
     Args:
@@ -296,7 +296,7 @@ assert is_binary_palindrome(3221225474) == 0
 ### `little_to_big_endian`
 
 ```python
-def little_to_big_endian(n):
+def little_to_big_endian(n: int) -> int:
     """Convert a 32-bit integer from little-endian to big-endian format"""
     return int.from_bytes(n.to_bytes(4, byteorder="little"), byteorder="big")
 
@@ -308,7 +308,7 @@ assert little_to_big_endian(2864434397) == 3721182122
 ### `next_power_of_two`
 
 ```python
-def next_power_of_two(n):
+def next_power_of_two(n: int) -> list[int]:
     """Return the smallest power of two greater than or equal to n.
 
     Args:
@@ -345,7 +345,7 @@ assert next_power_of_two(5) == [8]
 ### `parity`
 
 ```python
-def parity(n):
+def parity(n: int) -> int:
     """Compute bit parity of a 32-bit integer.
 
     Returns 1 if the number of set bits is odd, 0 if even.
@@ -370,7 +370,7 @@ assert parity(255) == 0
 ### `reverse_bits`
 
 ```python
-def reverse_bits(n):
+def reverse_bits(n: int) -> int:
     """Reverse the bits of a number"""
     result = 0
     inv = n & 0x01
@@ -390,7 +390,7 @@ assert reverse_bits(2) == 1073741824
 ### `rotate_left`
 
 ```python
-def rotate_left(val, n):
+def rotate_left(val: int, n: int) -> list[int]:
     """Rotate a 32-bit integer to the left by n bits.
 
     Bits that are shifted out from the left side are wrapped
@@ -420,7 +420,7 @@ assert rotate_left(1, 0) == [1]
 ### `rotate_right`
 
 ```python
-def rotate_right(val, n):
+def rotate_right(val: int, n: int) -> list[int]:
     """Rotate a 32-bit integer to the right by n bits.
 
     Bits that are shifted out from the right side are wrapped
@@ -452,7 +452,7 @@ assert rotate_right(1, 0) == [1]
 ### `base64_decoding`
 
 ```python
-def base64_decoding(input):
+def base64_decoding(input: str) -> tuple[str | list[int], str]:
     """Decode base64 input string.
 
     - Result string should be represented as a correct C string.
@@ -488,7 +488,7 @@ assert base64_decoding('UHl0aG9u\n') == ('Python', '')
 ### `base64_encoding`
 
 ```python
-def base64_encoding(input):
+def base64_encoding(input: str) -> tuple[str | list[int], str]:
     """Encode input string to base64.
 
     - Result string should be represented as a correct C string.
@@ -520,7 +520,7 @@ assert base64_encoding('Hello!\n') == ('SGVsbG8h', '')
 ### `bracket_validator`
 
 ```python
-def bracket_validator(input):
+def bracket_validator(input: str) -> tuple[list[int], str]:
     """Validate (), [], and {} brackets in a line.
 
     - Brackets must be properly nested and matched.
@@ -573,7 +573,7 @@ assert bracket_validator('([)]\n') == ([-1], '')
 ### `brainfuck_interpreter`
 
 ```python
-def brainfuck_interpreter(input):
+def brainfuck_interpreter(input: str) -> tuple[str | list[int], str]:
     """Brainfuck interpreter with 8 commands: ><+-.,[]
 
     Commands:
@@ -714,7 +714,7 @@ assert brainfuck_interpreter('<\n') == ([-1], '')
 ### `char_frequency`
 
 ```python
-def char_frequency(input):
+def char_frequency(input: str) -> tuple[str | list[int], str]:
     """Count occurrences of each character in a line.
 
     - Characters are counted in order of first appearance.
@@ -777,7 +777,7 @@ assert char_frequency('\n') == ('', '')
 ### `format_string`
 
 ```python
-def format_string(input):
+def format_string(input: str) -> tuple[str | list[int], str]:
     """Format string with %d placeholders replaced by integers from input.
 
     Input format: "format_string\\nint1\\nint2\\n..."
@@ -930,7 +930,7 @@ assert format_string('%-5d\n42\n') == ('42   ', '')
 ### `glob_match`
 
 ```python
-def glob_match(input):
+def glob_match(input: str) -> tuple[list[int], str]:
     """Match a text against a glob pattern.
 
     Input format:
@@ -960,7 +960,7 @@ def glob_match(input):
     if text is None:
         return [overflow_error_value], rest
 
-    def match(p, t):
+    def match(p: str, t: str) -> bool:
         if p == "":
             return t == ""
 
@@ -987,7 +987,7 @@ assert glob_match('*.txt\nfile.txt\n') == ([1], '')
 ### `infix_to_rpn`
 
 ```python
-def infix_to_rpn(input):
+def infix_to_rpn(input: str) -> tuple[str | list[int], str]:
     """Convert an infix expression into Reverse Polish Notation.
 
     The recommended algorithm is the shunting-yard algorithm: numbers go
@@ -1089,7 +1089,7 @@ assert infix_to_rpn('10 - 2 - 3\n') == ('10 2 - 3 -', '')
 ### `reverse_words_cstr`
 
 ```python
-def reverse_words_cstr(input):
+def reverse_words_cstr(input: str) -> tuple[str | list[int], str]:
     """Reverse the order of words in a C string.
 
     Words are separated by spaces. The characters inside each word
@@ -1129,7 +1129,7 @@ assert reverse_words_cstr('hello\n') == ('hello', '')
 ### `rle_compress`
 
 ```python
-def rle_compress(input):
+def rle_compress(input: str) -> tuple[str | list[int], str]:
     """Run-length compression: compress consecutive characters.
 
     Examples:
@@ -1181,7 +1181,7 @@ assert rle_compress('ABC\n') == ('1A1B1C', '')
 ### `rle_compress_bytes`
 
 ```python
-def rle_compress_bytes(*input_words):
+def rle_compress_bytes(*input_words: int) -> list[int]:
     """Run-length compression for bytes packed in 32-bit words.
 
     Input format:
@@ -1263,7 +1263,7 @@ assert rle_compress_bytes(1, 4278190080) == [2, 33488896]
 ### `rle_decompress`
 
 ```python
-def rle_decompress(input):
+def rle_decompress(input: str) -> tuple[str | list[int], str]:
     """Run-length decompression: decompress count+character format.
 
     Examples:
@@ -1323,7 +1323,7 @@ assert rle_decompress('1A1B1C\n') == ('ABC', '')
 ### `rle_decompress_bytes`
 
 ```python
-def rle_decompress_bytes(*input_words):
+def rle_decompress_bytes(*input_words: int) -> list[int]:
     """Run-length decompression for bytes packed in 32-bit words.
 
     Input format:
@@ -1402,7 +1402,7 @@ assert rle_decompress_bytes(2, 33488896) == [1, 4278190080]
 ### `stack_based_calculator`
 
 ```python
-def stack_based_calculator(input):
+def stack_based_calculator(input: str) -> tuple[list[int], str]:
     """Stack-based calculator supporting +, -, *, / operations.
 
     Uses Reverse Polish Notation (RPN). Examples:
@@ -1482,7 +1482,7 @@ assert stack_based_calculator('10 3 /\n') == ([3], '')
 ### `text_word_counter`
 
 ```python
-def text_word_counter(input):
+def text_word_counter(input: str) -> tuple[str | list[int], str]:
     """Count word frequencies in text with max word length of 3 symbols.
 
     Separators: space, comma, dot
@@ -1574,7 +1574,7 @@ assert text_word_counter('a,b.c a\n') == ('2 1 1', '')
 ### `collatz_length`
 
 ```python
-def collatz_length(n):
+def collatz_length(n: int) -> int:
     """Count the number of steps to reach 1 in the Collatz sequence.
 
     Starting from n, apply:
@@ -1614,7 +1614,7 @@ assert collatz_length(10) == 6
 ### `count_divisors`
 
 ```python
-def count_divisors(n):
+def count_divisors(n: int) -> int:
     """Count the number of divisors of a natural number"""
     if n < 1:
         return -1
@@ -1634,7 +1634,7 @@ assert count_divisors(10) == 4
 ### `fibonacci`
 
 ```python
-def fibonacci(n):
+def fibonacci(n: int) -> int:
     """Calculate the n-th Fibonacci number (positive only)"""
     if n == 0:
         return 0
@@ -1660,7 +1660,7 @@ assert fibonacci(25) == 75025
 ### `gcd_many`
 
 ```python
-def gcd_many(*input_words):
+def gcd_many(*input_words: int) -> list[int]:
     """Find the GCD of multiple integers.
 
     Input format:
@@ -1704,7 +1704,7 @@ assert gcd_many(4, 48, 18, 30, 42) == [6]
 ### `integer_sqrt`
 
 ```python
-def integer_sqrt(n):
+def integer_sqrt(n: int) -> int:
     """Compute the integer square root (floor of sqrt(n)).
 
     - n < 0: return -1
@@ -1737,7 +1737,7 @@ assert integer_sqrt(25) == 5
 ### `is_prime`
 
 ```python
-def is_prime(n):
+def is_prime(n: int) -> int:
     """Check if a natural number is prime"""
     if n < 1:
         return -1
@@ -1762,7 +1762,7 @@ assert is_prime(293) == 1
 ### `lcm`
 
 ```python
-def lcm(a, b):
+def lcm(a: int, b: int) -> list[int]:
     """Compute the least common multiple (LCM) of two positive integers.
 
     - a <= 0 or b <= 0: return -1
@@ -1793,7 +1793,7 @@ assert lcm(1, 100) == [100]
 ### `power`
 
 ```python
-def power(base, exp):
+def power(base: int, exp: int) -> list[int]:
     """Compute base raised to the power of a non-negative exponent.
 
     - exp < 0: return -1
@@ -1825,7 +1825,7 @@ assert power(0, 5) == [0]
 ### `power_many`
 
 ```python
-def power_many(*input_words):
+def power_many(*input_words: int) -> list[int]:
     """Compute powers for multiple (base, exponent) pairs.
 
     Input format:
@@ -1877,7 +1877,7 @@ assert power_many(1, 7, 1) == [7]
 ### `sum_even_n`
 
 ```python
-def sum_even_n(n):
+def sum_even_n(n: int) -> int:
     """Calculate the sum of even numbers from 1 to n"""
     if n <= 0:
         return -1
@@ -1896,7 +1896,7 @@ assert sum_even_n(90000) == 2025045000
 ### `sum_n`
 
 ```python
-def sum_n(n):
+def sum_n(n: int) -> int:
     """Calculate the sum of numbers from 1 to n"""
     if n <= 0:
         return -1
@@ -1913,7 +1913,7 @@ assert sum_n(10) == 55
 ### `sum_odd_n`
 
 ```python
-def sum_odd_n(n):
+def sum_odd_n(n: int) -> int:
     """Calculate the sum of odd numbers from 1 to n"""
     if n <= 0:
         return -1
@@ -1932,7 +1932,7 @@ assert sum_odd_n(90000) == 2025000000
 ### `sum_of_digits`
 
 ```python
-def sum_of_digits(n):
+def sum_of_digits(n: int) -> int:
     """Calculate the sum of the digits of a number"""
     total = 0
     n = abs(n)
@@ -1949,7 +1949,7 @@ assert sum_of_digits(-456) == 15
 ### `sum_word_cstream`
 
 ```python
-def sum_word_cstream(*xs):
+def sum_word_cstream(*xs: int) -> list[int]:
     """Input: stream of word (32 bit) in c string style (end with 0).
 
     Need to sum all numbers and send result in two words (64 bits).
@@ -1978,7 +1978,7 @@ assert sum_word_cstream(2147483647, 1, 2147483647, 2, 0) == [1, 1]
 ### `sum_word_pstream`
 
 ```python
-def sum_word_pstream(n, *xs):
+def sum_word_pstream(n: int, *xs: int) -> list[int]:
     """Input: stream of word (32 bit) in pascal string style (how many words,
     after that the words itself).
 
@@ -2007,7 +2007,7 @@ assert sum_word_pstream(2, 1, -1) == [0, 0]
 ### `caesar_cipher`
 
 ```python
-def caesar_cipher(input):
+def caesar_cipher(input: str) -> tuple[str | list[int], str]:
     """Apply a Caesar cipher to a line of text.
 
     Input format:
@@ -2069,7 +2069,7 @@ assert caesar_cipher('0\nHello\n') == ('Hello', '')
 ### `capital_case_cstr`
 
 ```python
-def capital_case_cstr(s):
+def capital_case_cstr(s: str) -> tuple[str | list[int], str]:
     """Convert the first character of each word in a C string to capital case.
 
     Capital Case Is Something Like This.
@@ -2100,7 +2100,7 @@ assert capital_case_cstr('python programming\n') == ('Python Programming', '')
 ### `capital_case_pstr`
 
 ```python
-def capital_case_pstr(s):
+def capital_case_pstr(s: str) -> tuple[str | list[int], str]:
     """Convert the first character of each word in a Pascal string to capital case.
 
     Capital Case Is Something Like This.
@@ -2131,7 +2131,7 @@ assert capital_case_pstr('python programming\n') == ('Python Programming', '')
 ### `hello_user_cstr`
 
 ```python
-def hello_user_cstr(input):
+def hello_user_cstr(input: str) -> tuple[str | list[int | str], str]:
     """Greet the user with C string: ask the name and greet by `Hello, <name>!` message.
 
     - Result string with greet message should be represented as a correct C string.
@@ -2164,7 +2164,7 @@ assert hello_user_cstr('Bob\n') == ('What is your name?\nHello, Bob!', '')
 ### `hello_user_pstr`
 
 ```python
-def hello_user_pstr(input):
+def hello_user_pstr(input: str) -> tuple[str | list[int | str], str]:
     """Greet the user with Pascal string: ask the name and greet by `Hello, <name>!` message.
 
     - Result string with greet message should be represented as a correct Pascal string.
@@ -2197,7 +2197,7 @@ assert hello_user_pstr('Bob\n') == ('What is your name?\nHello, Bob!', '')
 ### `lower_case_cstr`
 
 ```python
-def lower_case_cstr(s):
+def lower_case_cstr(s: str) -> tuple[str | list[int], str]:
     """Convert a C string to lower case.
 
     - Result string should be represented as a correct C string.
@@ -2226,7 +2226,7 @@ assert lower_case_cstr('World\n') == ('world', '')
 ### `lower_case_pstr`
 
 ```python
-def lower_case_pstr(s):
+def lower_case_pstr(s: str) -> tuple[str | list[int], str]:
     """Convert a Pascal string to lower case.
 
     - Result string should be represented as a correct Pascal string.
@@ -2255,7 +2255,7 @@ assert lower_case_pstr('World\n') == ('world', '')
 ### `reverse_string_cstr`
 
 ```python
-def reverse_string_cstr(s):
+def reverse_string_cstr(s: str) -> tuple[str | list[int], str]:
     """Reverse a C string.
 
     - Result string should be represented as a correct C string.
@@ -2284,7 +2284,7 @@ assert reverse_string_cstr('world!\n') == ('!dlrow', '')
 ### `reverse_string_pstr`
 
 ```python
-def reverse_string_pstr(s):
+def reverse_string_pstr(s: str) -> tuple[str | list[int], str]:
     """Reverse a Pascal string.
 
     - Result string should be represented as a correct Pascal string.
@@ -2313,7 +2313,7 @@ assert reverse_string_pstr('world!\n') == ('!dlrow', '')
 ### `strstr_cstr`
 
 ```python
-def strstr_cstr(input):
+def strstr_cstr(input: str) -> tuple[list[int], str]:
     """Find a substring inside a C string.
 
     Input format:
@@ -2366,7 +2366,7 @@ assert strstr_cstr('hello world|xyz\n') == ([-1], '')
 ### `upper_case_cstr`
 
 ```python
-def upper_case_cstr(s):
+def upper_case_cstr(s: str) -> tuple[str | list[int], str]:
     """Convert a C string to upper case.
 
     - Result string should be represented as a correct C string.
@@ -2395,7 +2395,7 @@ assert upper_case_cstr('world\n') == ('WORLD', '')
 ### `upper_case_pstr`
 
 ```python
-def upper_case_pstr(s):
+def upper_case_pstr(s: str) -> tuple[str | list[int], str]:
     """Convert a Pascal string to upper case.
 
     - Result string should be represented as a correct Pascal string.
@@ -2426,7 +2426,7 @@ assert upper_case_pstr('world\n') == ('WORLD', '')
 ### `affine2d_transform`
 
 ```python
-def affine2d_transform(*xs):
+def affine2d_transform(*xs: int) -> list[int]:
     """Input: first word N, then N pairs: x, y.
 
     Output for every pair: u = 3*x + 2*y + 5, v = -x + 4*y - 7.
@@ -2457,7 +2457,7 @@ assert affine2d_transform(3, -2, 5, 10, 0, -1, -1) == [9, 15, 35, -17, 0, -10]
 ### `complex_multiply`
 
 ```python
-def complex_multiply(*xs):
+def complex_multiply(*xs: int) -> list[int]:
     """Input: four words: a, b, c, d.
 
     Need to multiply two complex numbers: (a + b*i) * (c + d*i).
@@ -2487,7 +2487,7 @@ assert complex_multiply(123, 456, 7, 8) == [-2787, 4176]
 ### `determinant_2x2_stream`
 
 ```python
-def determinant_2x2_stream(*xs):
+def determinant_2x2_stream(*xs: int) -> list[int]:
     """Input: first word N, then N matrices: a, b, c, d.
 
     Output: N values of determinant where det = a*d - b*c.
@@ -2517,7 +2517,7 @@ assert determinant_2x2_stream(3, 0, 0, 0, 0, -1, 2, 3, -4, 7, -5, 4, 8) == [0, -
 ### `determinant_3x3`
 
 ```python
-def determinant_3x3(*xs):
+def determinant_3x3(*xs: int) -> list[int]:
     """Input: 3x3 matrix in format a_10, a_20, a_30, a_11, ...
 
     Need to calculate determinant of this matrix
@@ -2546,7 +2546,7 @@ assert determinant_3x3(7, -5, 4, 32, 8, 3, 5, 2, 8) == [1707]
 ### `djb2_hash`
 
 ```python
-def djb2_hash(xs):
+def djb2_hash(xs: str) -> int:
     """Input: stream of chars forming c string style (end with 0)
 
     Need to calculate DJB2 32 bit hash of input string
@@ -2570,7 +2570,7 @@ assert djb2_hash('Computers are awesome!\0') == 2262080881
 ### `fnv32_1_hash`
 
 ```python
-def fnv32_1_hash(xs):
+def fnv32_1_hash(xs: str) -> int:
     """Input: stream of chars forming c string style (end with 0)
 
     Need to calculate FNV-1 32 bit hash of input string
@@ -2595,7 +2595,7 @@ assert fnv32_1_hash('Computers are awesome!\0') == 3917207935
 ### `fnv32_1a_hash`
 
 ```python
-def fnv32_1a_hash(xs):
+def fnv32_1a_hash(xs: str) -> int:
     """Input: stream of chars forming c string style (end with 0)
 
     Need to calculate FNV-1A 32 bit hash of input string
@@ -2620,7 +2620,7 @@ assert fnv32_1a_hash('Computers are awesome!\0') == 4243580747
 ### `four_lane_mac`
 
 ```python
-def four_lane_mac(*xs):
+def four_lane_mac(*xs: int) -> list[int]:
     """Input: first word N, then N groups of eight values:
 
     a0, a1, a2, a3, b0, b1, b2, b3
@@ -2666,7 +2666,7 @@ assert four_lane_mac(0) == []
 ### `linear_filter`
 
 ```python
-def linear_filter(*xs):
+def linear_filter(*xs: int) -> list[int]:
     """
     Input: first word N (length of array), then N values of X.
     Output: N values of Y where Y[i] = 3*X[i] + 2*X[i-1] + X[i-2]
@@ -2697,7 +2697,7 @@ assert linear_filter(5, 1, 2, 3, 4, 5) == [3, 8, 14, 20, 26]
 ### `matrix_2x2_vector_stream`
 
 ```python
-def matrix_2x2_vector_stream(*xs):
+def matrix_2x2_vector_stream(*xs: int) -> list[int]:
     """Input: first word N, then N matrices and vectors.
 
     Each item contains:
@@ -2744,7 +2744,7 @@ assert matrix_2x2_vector_stream(2, 1, 0, 0, 1, 5, 6, 2, 3, 4, 5, 1, -1) == [5, 6
 ### `min_max_sum`
 
 ```python
-def min_max_sum(*xs):
+def min_max_sum(*xs: int) -> list[int]:
     """Input: first word N, then N values.
 
     Output three words:
@@ -2788,7 +2788,7 @@ assert min_max_sum(5, -2, 7, -3, 4, 1) == [-3, 7, 7]
 ### `pairwise_add_sub`
 
 ```python
-def pairwise_add_sub(*xs):
+def pairwise_add_sub(*xs: int) -> list[int]:
     """Input: first word N, then N pairs of values: a, b.
 
     For every pair calculate:
@@ -2833,7 +2833,7 @@ assert pairwise_add_sub(3, -5, 2, 100, -40, 7, 7) == [-3, -7, 60, 140, 14, 0]
 ### `rgb_to_grayscale`
 
 ```python
-def rgb_to_grayscale(*xs):
+def rgb_to_grayscale(*xs: int) -> list[int]:
     """Input: first word N, then N pixels packed as 0x00RRGGBB.
 
     For each pixel calculate the grayscale value with fixed point weights:
@@ -2876,7 +2876,7 @@ assert rgb_to_grayscale(2, 8421504, 1056816) == [128, 29]
 ### `sdbm_hash`
 
 ```python
-def sdbm_hash(xs):
+def sdbm_hash(xs: str) -> int:
     """Input: stream of chars forming c string style (end with 0)
 
     Need to calculate SDBM 32 bit hash of input string.
@@ -2902,7 +2902,7 @@ assert sdbm_hash('Computers are awesome!\0') == 79142482
 ### `sum_and_sum_squares`
 
 ```python
-def sum_and_sum_squares(*xs):
+def sum_and_sum_squares(*xs: int) -> list[int]:
     """Input: first word N, then N values.
 
     Output: two words: sum(X) and sum(x*x for x in X).
@@ -2940,7 +2940,7 @@ assert sum_and_sum_squares(5, 10, 20, 30, 40, 50) == [150, 5500]
 ### `dup`
 
 ```python
-def dup(x):
+def dup(x: int) -> list[int]:
     return [x, x]
 
 
@@ -2950,8 +2950,8 @@ assert dup(42) == [42, 42]
 ### `factorial`
 
 ```python
-def factorial(x):
-    def factorial_inner(n):
+def factorial(x: int) -> int:
+    def factorial_inner(n: int) -> int:
         return 1 if n == 0 else n * factorial_inner(n - 1)
 
     return factorial_inner(x)
@@ -2968,7 +2968,7 @@ assert factorial(9) == 362880
 ### `get_put_char`
 
 ```python
-def get_put_char(symbols):
+def get_put_char(symbols: str) -> tuple[list[int] | str, str]:
     """On X -- return -1 (word). On Y -- return 0xCCCCCCCC"""
     char = symbols[0]
     if char == "X":
@@ -2987,7 +2987,7 @@ assert get_put_char('ABCD') == ('A', 'BCD')
 ### `hello`
 
 ```python
-def hello(_):
+def hello(_: str) -> tuple[str, str]:
     return ("\x1fHello\n\0World!", "")
 
 
@@ -2998,7 +2998,7 @@ assert hello('') == ('\x1fHello\n\0World!', '')
 ### `logical_not`
 
 ```python
-def logical_not(x):
+def logical_not(x: bool) -> bool:
     return not x
 
 

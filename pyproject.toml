@@ -3,3 +3,9 @@ target-version = "py314"
 
 [tool.ruff.lint]
 ignore = ["FLY002", "BLE001"]
+
+[tool.pyright]
+include = ["script", "example/step-by-step-div.py"]
+exclude = ["**/__pycache__"]
+pythonVersion = "3.14"
+typeCheckingMode = "standard"

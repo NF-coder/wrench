@@ -1,10 +1,13 @@
 #!/usr/bin/env python3.14
+from __future__ import annotations
 
 import copy
 import inspect
 import itertools
 import os
 import random
+from collections.abc import Iterator
+from typing import Any
 
 import testcases.bitwise
 import testcases.complex
@@ -14,6 +17,8 @@ import testcases.string
 import testcases.vliw  # noqa: F401
 from testcases.core import (
     TEST_CASES,
+    Case,
+    TestCase,
     cbuf,
     cstr,
     pbuf,
@@ -23,7 +28,9 @@ from testcases.core import (
 )
 
 
-def python_assert_string(name, params, results):
+def python_assert_string(
+    name: str, params: dict[str, Any], results: dict[str, Any]
+) -> str:
     if "word" in params and len(params) == 1:
         py_params = f"word={params['word']}"
     elif "symbols" in params and len(params) == 1:
@@ -43,7 +50,7 @@ def python_assert_string(name, params, results):
     return f"assert {name}({py_params}) == {py_results}"
 
 
-def generate_python_test_cases(fname, cases):
+def generate_python_test_cases(fname: str, cases: list[Case]) -> str:
     return "\n".join([case.assert_string(fname) for case in cases])
 
 
@@ -81,8 +88,8 @@ Also we have the following helper functions not from builtins:
 )
 
 
-def get_categories(cases):
-    categories = {}
+def get_categories(cases: dict[str, TestCase]) -> dict[str, list[str]]:
+    categories: dict[str, list[str]] = {}
     for name, variant in sorted(TEST_CASES.items()):
         if variant.category not in categories:
             categories[variant.category] = []
@@ -90,7 +97,7 @@ def get_categories(cases):
     return categories
 
 
-def generate_variant_readme():
+def generate_variant_readme() -> str:
     res = ["# Wrench variants", variant_readme_description]
     res.append("Variants:")
     res.append("")
@@ -122,7 +129,7 @@ def generate_variant_readme():
     return "\n".join(res)
 
 
-def run_python_test_cases(verbose):
+def run_python_test_cases(verbose: bool) -> None:
     for variant in TEST_CASES.values():
         for case in variant.cases:
             if verbose:
@@ -134,7 +141,7 @@ def run_python_test_cases(verbose):
             case.check_assert(variant.reference)
 
 
-def generate_wrench_test_cases(conf_name, case):
+def generate_wrench_test_cases(conf_name: str, case: Case) -> str:
     conf_name = case.assert_string(conf_name)
     return f"""name: "{conf_name}"
 limit: {case.limit}
@@ -156,7 +163,7 @@ reports:
 ###########################################################
 
 
-def write_test_cases(path, name, variant):
+def write_test_cases(path: str, name: str, variant: TestCase) -> None:
     os.makedirs(f"{path}/{name}", exist_ok=True)
     tests = variant.cases + variant.reference_cases
     for idx, case in enumerate(tests, 1):
@@ -166,14 +173,14 @@ def write_test_cases(path, name, variant):
             f.write(generate_wrench_test_cases(name, case))
 
 
-def generate_wrench_spec(path, test_names):
+def generate_wrench_spec(path: str, test_names: list[str]) -> None:
     for name, variant in list(TEST_CASES.items()):
         if name not in test_names:
             continue
         write_test_cases(path, name, variant)
 
 
-def generate_wrench_variant_test_cases(path):
+def generate_wrench_variant_test_cases(path: str) -> None:
     for name, variant in list(TEST_CASES.items()):
         os.makedirs(f"{path}/{name}", exist_ok=True)
         tests = variant.cases + variant.reference_cases
@@ -184,14 +191,16 @@ def generate_wrench_variant_test_cases(path):
                 f.write(generate_wrench_test_cases(name, case))
 
 
-def inf_shuffle(xs):
+def inf_shuffle(xs: list[str]) -> Iterator[str]:
     while True:
         buf = copy.copy(xs)
         random.shuffle(buf)
         yield from buf
 
 
-def gen_variants(cases):
+def gen_variants(
+    cases: dict[str, TestCase],
+) -> Iterator[tuple[str, str, str, str, str, str]]:
     categories = get_categories(cases)
     yield "acc32", "f32a", "risc-iv", "m68k", "vliw", "scheme"
     for string, bit, math, complex, vliw, schema in zip(
@@ -225,12 +234,12 @@ def gen_variants(cases):
         yield *basic, complex, vliw, schema
 
 
-def generate_variants(n, fn):
+def generate_variants(n: int, fn: str) -> None:
     variants = list(itertools.islice(gen_variants(TEST_CASES), n + 1))
-    distribution = {}
+    distribution: dict[tuple[str, ...], int] = {}
     for row in variants:
         distribution[row] = distribution.get(row, 0) + 1
-    grouped_by_rep = {}
+    grouped_by_rep: dict[int, int] = {}
     for v in distribution.values():
         grouped_by_rep[v] = grouped_by_rep.get(v, 0) + 1
     print("Generate random variants to csv file:", grouped_by_rep)

@@ -2,7 +2,7 @@
         test test-hs test-examples test-server test-accept test-perf test-perf-profile \
         format format-hs format-asm format-py format-md format-html format-yaml \
         format-check format-check-hs format-check-asm format-check-py format-check-html format-check-md \
-        lint lint-hs lint-py lint-html \
+        lint lint-hs lint-py lint-html typecheck-py \
         lint-fix lint-fix-hs lint-fix-py \
         generate generate-variants generate-stack-deps \
         run-server \
@@ -145,13 +145,16 @@ format-check-md:
 
 # Lint – check
 
-lint: lint-hs lint-py lint-html
+lint: lint-hs lint-py lint-html typecheck-py
 
 lint-hs:
 	hlint $(HS_SRC_DIR)
 
 lint-py:
 	ruff check script
+
+typecheck-py:
+	pyright
 
 lint-html:
 	npx @biomejs/biome lint static/

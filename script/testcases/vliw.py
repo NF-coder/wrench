@@ -6,7 +6,7 @@ from testcases.core import (
 )
 
 
-def fnv32_1_hash(xs):
+def fnv32_1_hash(xs: str) -> int:
     """Input: stream of chars forming c string style (end with 0)
 
     Need to calculate FNV-1 32 bit hash of input string
@@ -40,7 +40,7 @@ TEST_CASES["fnv32_1_hash"] = TestCase(
 ###########################################################
 
 
-def fnv32_1a_hash(xs):
+def fnv32_1a_hash(xs: str) -> int:
     """Input: stream of chars forming c string style (end with 0)
 
     Need to calculate FNV-1A 32 bit hash of input string
@@ -74,7 +74,7 @@ TEST_CASES["fnv32_1a_hash"] = TestCase(
 ###########################################################
 
 
-def djb2_hash(xs):
+def djb2_hash(xs: str) -> int:
     """Input: stream of chars forming c string style (end with 0)
 
     Need to calculate DJB2 32 bit hash of input string
@@ -107,7 +107,7 @@ TEST_CASES["djb2_hash"] = TestCase(
 ###########################################################
 
 
-def determinant_3x3(*xs):
+def determinant_3x3(*xs: int) -> list[int]:
     """Input: 3x3 matrix in format a_10, a_20, a_30, a_11, ...
 
     Need to calculate determinant of this matrix
@@ -145,7 +145,7 @@ TEST_CASES["determinant_3x3"] = TestCase(
 ###########################################################
 
 
-def linear_filter(*xs):
+def linear_filter(*xs: int) -> list[int]:
     """
     Input: first word N (length of array), then N values of X.
     Output: N values of Y where Y[i] = 3*X[i] + 2*X[i-1] + X[i-2]
@@ -190,7 +190,7 @@ TEST_CASES["linear_filter"] = TestCase(
 ###########################################################
 
 
-def sdbm_hash(xs):
+def sdbm_hash(xs: str) -> int:
     """Input: stream of chars forming c string style (end with 0)
 
     Need to calculate SDBM 32 bit hash of input string.
@@ -225,7 +225,7 @@ TEST_CASES["sdbm_hash"] = TestCase(
 ###########################################################
 
 
-def affine2d_transform(*xs):
+def affine2d_transform(*xs: int) -> list[int]:
     """Input: first word N, then N pairs: x, y.
 
     Output for every pair: u = 3*x + 2*y + 5, v = -x + 4*y - 7.
@@ -268,7 +268,7 @@ TEST_CASES["affine2d_transform"] = TestCase(
 ###########################################################
 
 
-def sum_and_sum_squares(*xs):
+def sum_and_sum_squares(*xs: int) -> list[int]:
     """Input: first word N, then N values.
 
     Output: two words: sum(X) and sum(x*x for x in X).
@@ -316,7 +316,7 @@ TEST_CASES["sum_and_sum_squares"] = TestCase(
 ###########################################################
 
 
-def determinant_2x2_stream(*xs):
+def determinant_2x2_stream(*xs: int) -> list[int]:
     """Input: first word N, then N matrices: a, b, c, d.
 
     Output: N values of determinant where det = a*d - b*c.
@@ -358,7 +358,7 @@ TEST_CASES["determinant_2x2_stream"] = TestCase(
 ###########################################################
 
 
-def complex_multiply(*xs):
+def complex_multiply(*xs: int) -> list[int]:
     """Input: four words: a, b, c, d.
 
     Need to multiply two complex numbers: (a + b*i) * (c + d*i).
@@ -399,7 +399,7 @@ TEST_CASES["complex_multiply"] = TestCase(
 ###########################################################
 
 
-def four_lane_mac(*xs):
+def four_lane_mac(*xs: int) -> list[int]:
     """Input: first word N, then N groups of eight values:
 
     a0, a1, a2, a3, b0, b1, b2, b3
@@ -469,7 +469,7 @@ TEST_CASES["four_lane_mac"] = TestCase(
 ###########################################################
 
 
-def pairwise_add_sub(*xs):
+def pairwise_add_sub(*xs: int) -> list[int]:
     """Input: first word N, then N pairs of values: a, b.
 
     For every pair calculate:
@@ -527,7 +527,7 @@ TEST_CASES["pairwise_add_sub"] = TestCase(
 ###########################################################
 
 
-def min_max_sum(*xs):
+def min_max_sum(*xs: int) -> list[int]:
     """Input: first word N, then N values.
 
     Output three words:
@@ -584,7 +584,7 @@ TEST_CASES["min_max_sum"] = TestCase(
 ###########################################################
 
 
-def matrix_2x2_vector_stream(*xs):
+def matrix_2x2_vector_stream(*xs: int) -> list[int]:
     """Input: first word N, then N matrices and vectors.
 
     Each item contains:
@@ -655,7 +655,7 @@ TEST_CASES["matrix_2x2_vector_stream"] = TestCase(
 ###########################################################
 
 
-def rgb_to_grayscale(*xs):
+def rgb_to_grayscale(*xs: int) -> list[int]:
     """Input: first word N, then N pixels packed as 0x00RRGGBB.
 
     For each pixel calculate the grayscale value with fixed point weights:
