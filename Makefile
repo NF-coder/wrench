@@ -125,7 +125,7 @@ format-yaml:
 format-check: format-check-hs format-check-asm format-check-py format-check-html format-check-md
 
 format-check-hs:
-	fourmolu -m check $(HS_SRC_DIR)
+	fourmolu -m check $(if $(FILES),$(FILES),$(HS_SRC_DIR))
 
 format-check-asm: build-fmt
 	stack exec wrench-fmt -- --check --isa risc-iv-32 -v example/risc-iv-32/*.s test/golden/risc-iv-32/*.s
@@ -135,29 +135,29 @@ format-check-asm: build-fmt
 	stack exec wrench-fmt -- --check --isa vliw-iv    -v example/vliw-iv/*.s    test/golden/vliw-iv/*.s
 
 format-check-py:
-	ruff format --check script
+	ruff format --check $(if $(FILES),$(FILES),script)
 
 format-check-html:
-	npx @biomejs/biome format static/
+	npx @biomejs/biome format $(if $(FILES),$(FILES),static/)
 
 format-check-md:
-	markdownlint . .rules -c .markdownlint.yaml
+	markdownlint $(if $(FILES),$(FILES),. .rules) -c .markdownlint.yaml
 
 # Lint – check
 
 lint: lint-hs lint-py lint-html typecheck-py
 
 lint-hs:
-	hlint $(HS_SRC_DIR)
+	hlint $(if $(FILES),$(FILES),$(HS_SRC_DIR))
 
 lint-py:
-	ruff check script
+	ruff check $(if $(FILES),$(FILES),script)
 
 typecheck-py:
-	pyright
+	pyright $(FILES)
 
 lint-html:
-	npx @biomejs/biome lint static/
+	npx @biomejs/biome lint $(if $(FILES),$(FILES),static/)
 
 # Lint – fix
 
