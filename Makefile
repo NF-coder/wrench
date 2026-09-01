@@ -4,6 +4,7 @@
         format-check format-check-hs format-check-asm format-check-py format-check-html format-check-md \
         lint lint-hs lint-py lint-html typecheck-py \
         lint-fix lint-fix-hs lint-fix-py \
+		setup-hooks \
         generate generate-variants generate-stack-deps \
         run-server \
         docker-build docker-push-builder docker-push-edge \
@@ -197,6 +198,9 @@ docker-run-server: docker-build
 	docker run -it --rm $(IMAGE_NAME) wrench-serv
 
 # Meta
+
+setup-hooks:
+	pre-commit install
 
 fix: lint-fix format generate test-accept test-examples test-server
 
