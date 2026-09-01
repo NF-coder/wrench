@@ -1,0 +1,52 @@
+repos:
+  - repo: local
+    hooks:
+      # Lint
+      - id: lint-hs
+        name: Haskell linter
+        language: system
+        entry: bash -c 'make lint-hs FILES="$@"' --
+        types: [haskell]
+
+      - id: lint-py
+        name: Python linter
+        language: system
+        entry: bash -c 'make lint-py FILES="$@"' --
+        types: [python]
+
+      - id: typecheck-py
+        name: Python linter (typecheck)
+        language: system
+        entry: bash -c 'make typecheck-py FILES="$@"' --
+        types: [python]
+
+      - id: lint-html
+        name: HTML linter
+        language: system
+        entry: bash -c 'make lint-html FILES="$@"' --
+        types: [css, javascript, html]
+
+      # Format check
+      - id: format-check-hs
+        name: Haskell formatter
+        language: system
+        entry: bash -c 'make format-check-hs FILES="$@"' --
+        types: [haskell]
+
+      - id: format-check-py
+        name: Python formatter
+        language: system
+        entry: bash -c 'make format-check-py FILES="$@"' --
+        types: [python]
+
+      - id: format-check-html
+        name: HTML formatter
+        language: system
+        entry: bash -c 'make format-check-html FILES="$@"' --
+        types: [css, javascript, html]
+
+      - id: format-check-md
+        name: Markdown formatter
+        language: system
+        entry: bash -c 'make format-check-md FILES="$@"' --
+        types: [markdown]
